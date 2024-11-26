@@ -1,9 +1,10 @@
 import 'dart:developer';
 
 import 'package:local_auth/local_auth.dart';
+import 'package:max_it/core/services/shared_pref_helper.dart';
 
 class BiometricHelper {
-  static Future<bool> authenticate(auth) async {
+  static Future<String?> authenticate(auth) async {
     try {
       bool authenticated = await auth.authenticate(
           localizedReason: "Test",
@@ -12,10 +13,10 @@ class BiometricHelper {
               stickyAuth: true,
               biometricOnly: true));
       log("Authenticated : $authenticated");
-      return true;
+      return (await SharedPrefManager().getPasskey()) ?? "N/A";
     } catch (e) {
       log(e.toString());
-      return false;
+      return null;
     }
   }
 }
