@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:max_it/core/services/biometricHelper.dart';
 import 'package:max_it/core/services/shared_pref_helper.dart';
+import 'package:max_it/presentation/pages/home.dart';
 import 'package:max_it/presentation/pages/otp.dart';
 
 void main() {
@@ -162,7 +163,15 @@ class _MyHomePageState extends State<MyHomePage> {
                         onPressed: () => SharedPrefManager().clearPasskey(),
                         icon: const Icon(Icons.clear_rounded)))
               ],
-            )
+            ),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const HomePage()));
+                },
+                child: const Text("Home"))
           ],
         ),
       )),
