@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
@@ -7,6 +8,8 @@ import 'package:max_it/core/constants/sizedbox.dart';
 import 'package:max_it/core/services/shared_pref_helper.dart';
 import 'package:max_it/presentation/widgets/drawer.dart';
 import 'package:max_it/presentation/widgets/modal_reminder.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -18,30 +21,75 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   void initState() {
+    checkStatusFromServer();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       // Appeler votre fonction asynchrone
       bool? shouldShowModal = await checkLastAttempt();
 
       if (shouldShowModal != null && shouldShowModal) {
-        showModalBottomSheet(
-          context: context,
-          isScrollControlled: true,
-          backgroundColor: Colors.white,
-          builder: (BuildContext context) {
-            return const FractionallySizedBox(
-              heightFactor: 0.4,
-              child: ModalReminder(), // Votre widget personnalisé
-            );
-          },
-        );
+        runZonedGuarded(() {
+          showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            backgroundColor: Colors.white,
+            builder: (BuildContext context) {
+              return const FractionallySizedBox(
+                heightFactor: 0.4,
+                child: ModalReminder(), // Votre widget personnalisé
+              );
+            },
+          );
+        }, (e, s) => log(e.toString()));
       }
     });
+
     super.initState();
+  }
+
+  Future<void> checkStatusFromServer() async {
+    final url = Uri.parse(
+        'https://0d5e-197-239-64-129.ngrok-free.app/api/v1/orange-client/secret-word-status');
+
+    // Paramètres de la requête
+    final body = {
+      'phone_number': '+22654562133',
+    };
+
+    try {
+      // Envoyer la requête POST
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: json.encode(body),
+      );
+
+      // Vérifiez la réponse
+      if (response.statusCode == 200) {
+        // Décoder la réponse JSON
+        final jsonResponse = json.decode(response.body);
+
+        // Extraire le booléen "active"
+        final bool isActive = jsonResponse['active'] ?? false;
+
+        log('Le statut actif est : $isActive');
+        if (!isActive) {
+          await SharedPrefManager().clear();
+        }
+
+        // Utilisez "isActive" dans votre logique
+      } else {
+        log('Erreur : ${response.statusCode} - ${response.body}');
+      }
+    } catch (e) {
+      log('Exception : $e');
+    }
   }
 
   checkLastAttempt() async {
     DateTime? lastAttemp = await SharedPrefManager().getLastAttempPasskey();
-    Duration? frequency = const Duration(minutes: 1);
+    Duration? frequency = const Duration(seconds: 20);
     DateTime today = DateTime.now();
 
     // ignore: unnecessary_null_comparison
