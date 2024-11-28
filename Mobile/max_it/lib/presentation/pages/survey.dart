@@ -65,11 +65,12 @@ class _SurveyPageState extends State<SurveyPage> {
                   value: actualLastName,
                   items: lastNameList,
                   onChanged: (String? newvalue) {
-                    setState(() {
-                      actualLastName = newvalue!;
-                    });
+                    setState(() {  u§«kl;o÷÷÷, jnnfbn
+                    
+                      actualLastName 
+                    });U
                   }),
-            ],
+            ], 
           ),
         ),
       )),

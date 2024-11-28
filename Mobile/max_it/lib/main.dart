@@ -98,7 +98,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         String msg = "Authentification réussie";
                         Color colour = Colors.green;
                         String? res =
-                            (await BiometricHelper.authenticate(auth));
+                            (await BiometricHelper.authenticateForPasskey(
+                                auth));
                         res == null
                             ? {
                                 msg = "Erreur d'authentification",

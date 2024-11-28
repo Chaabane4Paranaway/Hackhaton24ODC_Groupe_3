@@ -2,7 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:max_it/core/constants/sizedbox.dart';
+import 'package:max_it/core/services/biometricHelper.dart';
 import 'package:max_it/presentation/pages/survey.dart';
 import 'package:max_it/presentation/widgets/modal_pin.dart';
 
@@ -17,9 +19,15 @@ class DrawerW extends StatefulWidget {
 
 class _DrawerWState extends State<DrawerW> {
   bool isBiometricEnabled = false;
+  late final LocalAuthentication auth;
+  bool _supportState = false;
 
   @override
   void initState() {
+    auth = LocalAuthentication();
+    auth.isDeviceSupported().then((bool isSupported) => setState(() {
+          _supportState = isSupported;
+        }));
     super.initState();
   }
 
@@ -98,12 +106,17 @@ class _DrawerWState extends State<DrawerW> {
                             value: isBiometricEnabled,
                             onChanged: (value) {
                               if (isBiometricEnabled == false) {
-                                showModalBottomSheet(
-                                    backgroundColor: Colors.white,
-                                    context: context,
-                                    builder: (context) {
-                                      return const ModalPinInput();
-                                    });
+                                BiometricHelper.authenticate(auth)
+                                    .then((value) {
+                                  if (value) {
+                                    showModalBottomSheet(
+                                        backgroundColor: Colors.white,
+                                        context: context,
+                                        builder: (context) {
+                                          return const ModalPinInput();
+                                        });
+                                  }
+                                });
                               }
                               setState(() {
                                 isBiometricEnabled = value;
