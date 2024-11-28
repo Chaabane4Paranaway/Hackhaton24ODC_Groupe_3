@@ -1,6 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:max_it/core/constants/sizedbox.dart';
+import 'package:max_it/core/services/shared_pref_helper.dart';
+import 'package:max_it/presentation/GererMonCompte/MonCompteScreen.dart';
+import 'package:max_it/presentation/otp/otp.dart';
 
 class ModalReminder extends StatefulWidget {
   const ModalReminder({super.key});
@@ -30,7 +35,7 @@ class _ModalReminderState extends State<ModalReminder> {
             children: [
               16.v,
               const Text(
-                "Rappe de mot de secret",
+                "Rappel de mot de secret",
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               8.v,
@@ -40,7 +45,7 @@ class _ModalReminderState extends State<ModalReminder> {
                   fontSize: 18,
                 ),
               ),
-              8.v,
+              16.v,
               TextField(
                 decoration: InputDecoration(
                     border: OutlineInputBorder(
@@ -77,8 +82,11 @@ class _ModalReminderState extends State<ModalReminder> {
                       if (passkeyController.text.trim().toLowerCase() ==
                           "maman") {
                         Navigator.pop(context);
+                        SharedPrefManager()
+                            .storeLastAttempPasskey(DateTime.now());
                       } else {
-                        // Get.to(() => const OtpScreen());
+                        Navigator.pop(context);
+                        Get.to(() => const MonCompteScreen());
                       }
                     },
                     style: ElevatedButton.styleFrom(

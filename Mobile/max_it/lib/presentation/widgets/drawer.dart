@@ -2,9 +2,13 @@ import 'dart:developer';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_core/get_core.dart';
+import 'package:get/route_manager.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:max_it/core/constants/sizedbox.dart';
 import 'package:max_it/core/services/biometricHelper.dart';
+import 'package:max_it/presentation/GererMonCompte/MonCompteScreen.dart';
+import 'package:max_it/presentation/pages/debloqueAccount.dart';
 import 'package:max_it/presentation/pages/survey.dart';
 import 'package:max_it/presentation/widgets/modal_pin.dart';
 
@@ -136,10 +140,7 @@ class _DrawerWState extends State<DrawerW> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: ListTile(
-                          onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const SurveyPage())),
+                          onTap: () => Get.to(() => const MonCompteScreen()),
                           leading: Container(
                               decoration: BoxDecoration(
                                   color: Colors.grey.shade200,

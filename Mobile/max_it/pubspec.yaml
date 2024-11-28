@@ -21,7 +21,7 @@ dependencies:
   pinput: ^5.0.0
   shared_preferences: ^2.3.3
   local_auth: ^2.3.0
-  awesome_notifications: ^0.10.0
+  get: ^4.6.6
   
 
 dev_dependencies:
@@ -48,6 +48,7 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/picto/
+    - assets/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

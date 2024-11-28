@@ -1,44 +1,44 @@
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:max_it/core/routes/app_route.dart';
 import 'package:max_it/core/services/biometricHelper.dart';
 import 'package:max_it/core/services/shared_pref_helper.dart';
 import 'package:max_it/presentation/pages/home.dart';
-import 'package:max_it/presentation/pages/otp.dart';
+
+// void main() {
+//   AwesomeNotifications().initialize(
+//     null, // Icône par défaut
+//     [
+//       NotificationChannel(
+//         channelKey: 'otp_channel',
+//         channelName: 'OTP Notifications',
+//         channelDescription: 'Channel for OTP messages',
+//         defaultColor: Colors.blue,
+//         importance: NotificationImportance.High,
+//         channelShowBadge: true,
+//       ),
+//     ],
+//   );
+
+//   runApp(const MyApp());
+// }
 
 void main() {
-  AwesomeNotifications().initialize(
-    null, // Icône par défaut
-    [
-      NotificationChannel(
-        channelKey: 'otp_channel',
-        channelName: 'OTP Notifications',
-        channelDescription: 'Channel for OTP messages',
-        defaultColor: Colors.blue,
-        importance: NotificationImportance.High,
-        channelShowBadge: true,
-      ),
-    ],
-  );
-
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(),
+      initialRoute: '/',
+      getPages: Routes.routes,
     );
   }
 }
@@ -83,10 +83,10 @@ class _MyHomePageState extends State<MyHomePage> {
               children: [
                 FilledButton.tonalIcon(
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const OtpPage()));
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => const OtpPage()));
                     },
                     label: const Text("OTP")),
                 const SizedBox(
