@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:max_it/presentation/widgets/modal_reminder.dart';
 
 class SurveyPage extends StatefulWidget {
   const SurveyPage({super.key});
@@ -57,6 +58,19 @@ class _SurveyPageState extends State<SurveyPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              OutlinedButton(
+                  onPressed: () {
+                    showModalBottomSheet(
+                        backgroundColor: Colors.white,
+                        isScrollControlled: true,
+                        context: context,
+                        builder: (context) => Padding(
+                              padding: MediaQuery.of(context).viewInsets,
+                              child: const FractionallySizedBox(
+                                  heightFactor: 0.4, child: ModalReminder()),
+                            ));
+                  },
+                  child: const Text("Rappel passkey")),
               DropdownButton<String>(
                   borderRadius: BorderRadius.circular(10),
                   dropdownColor: Colors.orange,
@@ -65,12 +79,11 @@ class _SurveyPageState extends State<SurveyPage> {
                   value: actualLastName,
                   items: lastNameList,
                   onChanged: (String? newvalue) {
-                    setState(() {  u§«kl;o÷÷÷, jnnfbn
-                    
-                      actualLastName 
-                    });U
+                    setState(() {
+                      actualLastName = newvalue;
+                    });
                   }),
-            ], 
+            ],
           ),
         ),
       )),

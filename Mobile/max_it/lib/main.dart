@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
@@ -7,6 +8,20 @@ import 'package:max_it/presentation/pages/home.dart';
 import 'package:max_it/presentation/pages/otp.dart';
 
 void main() {
+  AwesomeNotifications().initialize(
+    null, // Icône par défaut
+    [
+      NotificationChannel(
+        channelKey: 'otp_channel',
+        channelName: 'OTP Notifications',
+        channelDescription: 'Channel for OTP messages',
+        defaultColor: Colors.blue,
+        importance: NotificationImportance.High,
+        channelShowBadge: true,
+      ),
+    ],
+  );
+
   runApp(const MyApp());
 }
 
@@ -71,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const OtpView()));
+                              builder: (context) => const OtpPage()));
                     },
                     label: const Text("OTP")),
                 const SizedBox(
