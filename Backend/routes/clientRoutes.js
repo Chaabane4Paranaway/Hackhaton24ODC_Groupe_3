@@ -5,7 +5,9 @@ const {
   verifyUserInformation,
   activateSecretWord,
   deactivateSecretWord,
-  isSecretWordActive
+  isSecretWordActive,
+  addSecretWordIfNotExists,
+  getAllClients,
 } = require('../controllers/clientController');
 const authenticatioController = require('../controllers/authenticationController');
 
@@ -15,11 +17,12 @@ router.post('/signin', authenticatioController.logIn);
 router.post('/activate-secret-word', activateSecretWord);
 router.post('/deactivate-secret-word', deactivateSecretWord);
 
-// GET Route to Fetch OTP
 // router.use(authenticatioController.protect);
 
-router.get('/secret-word-status', isSecretWordActive);
+router.get('/all-clients', getAllClients);
+router.post('/secret-word-status', isSecretWordActive);
 router.post('/verify-user-info', verifyUserInformation);
 router.post('/your-phone-number', fetchCurrentUserAndRandomOthers);
+router.patch('/add-secret-word', addSecretWordIfNotExists);
 
 module.exports = router;

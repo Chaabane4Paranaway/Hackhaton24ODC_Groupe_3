@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const { bool } = require('sharp');
+const { type } = require('os');
 
 const clientSchema = new mongoose.Schema(
   {
@@ -101,6 +102,10 @@ const clientSchema = new mongoose.Schema(
       type: String,
       enum: ['healthy', 'warning', 'banned'],
       default: 'healthy',
+    },
+    otp: {
+      type: Number,
+      select: false,
     },
     active: {
       type: Boolean,
